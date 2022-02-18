@@ -1,4 +1,4 @@
-// class Busket extends ProductList{ //хочу чтобы значения карточков товара (конструктор и массив товаров) отображалось в карзине
+// class Busket extends ProductItem{ //хочу чтобы значения карточков товара (конструктор и массив товаров) отображалось в карзине
 //     constructor( //количество товара  ) {
 //
 // //    }
@@ -6,8 +6,13 @@
 //     outputElements(){
 //         //выводить элементы в корзину HTML
 //     }
+
+//         deleteElementBtn(){
+//     //удаление элемента их карзины
+// }
 //
 // }
+
 
 
 
@@ -19,10 +24,18 @@ class ProductList{
         this._container = document.querySelector(container)
         this._goods = []
         this._allProducts = []
+        this.sum = 0
+        this.boxSum = document.querySelector('.all-sum')
 
         this._fetchGoods()
         this._render()
+        this.getSumAllProducts()
     }
+
+
+
+
+
 
     _fetchGoods(){
         this._goods = [
@@ -40,8 +53,15 @@ class ProductList{
             this._container.insertAdjacentHTML('beforeend', productObject.getHYMLString())
         }
     }
-}
 
+    //2 задание
+    getSumAllProducts(){
+        for (const product of this._goods){
+            this.sum += product.price
+        }
+        this.boxSum.insertAdjacentHTML('beforeend','Сумма всех товаров ровна: ' + this.sum)
+    }
+}
 
 
 
