@@ -1,4 +1,4 @@
-// class Busket extends ProductItem{ //хочу чтобы значения карточков товара (конструктор и массив товаров) отображалось в карзине
+// class Busket extends ProductItem{ //хочу чтобы значения карточек товара (конструктор и массив товаров) отображались в карзине при клике на кнопку кпить
 //     constructor( //количество товара  ) {
 //
 // //    }
@@ -59,7 +59,7 @@ class ProductList{
         for (const product of this._goods){
             this.sum += product.price
         }
-        this.boxSum.insertAdjacentHTML('beforeend','Сумма всех товаров ровна: ' + this.sum)
+        this.boxSum.insertAdjacentHTML('beforeend','Сумма всех товаров равна: ' + this.sum)
     }
 }
 
