@@ -34,9 +34,6 @@ class ProductList{
 
 
 
-
-
-
     _fetchGoods(){
         this._goods = [
             {id: 1, title: 'Notebook', price: 1000},
