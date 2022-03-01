@@ -15,6 +15,7 @@
     <p>{{sayHello()}}</p>
 
     <a :href="link">Cat</a>
+    <div v-html="completeElement">{{completeElement}}</div>
 </div>
 
 <script src="main.js"></script>
@@ -24,7 +25,8 @@
         el: "#app",
         data:{
             title: "Hello, Vue",
-            link: 'https://en.wikipedia.org/wiki/Cat'
+            link: 'https://en.wikipedia.org/wiki/Cat',
+            completeElement: `<span>i'm new element</span>`
         },
         methods:{
             sayHello(){
