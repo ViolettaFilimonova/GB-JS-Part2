@@ -12,6 +12,13 @@ let text = document.querySelector('.text')
 let btn = document.querySelector('.btn')
 let form = document.querySelector('form')
 
+
+function validateEmail(email) {
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+
 form.onsubmit = function ()  {
     console.log('111')
     inputs.forEach(function (input){
@@ -21,13 +28,15 @@ form.onsubmit = function ()  {
         }else {
             input.classList.remove('err')
         }
-    })
+    }
+    )
 
+    if (!validateEmail(email.value)){
+        email.value.classList.add('err')
+        return false
+    }else {
+        email.value.classList.remove('err')
+    }
      return false
-}
-
-function validateEmail(email) {
-    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
 }
 
