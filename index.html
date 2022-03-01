@@ -11,6 +11,8 @@
 <body>
 
 <div id="app">
+    <input type="" v-model="name">
+    <p>{{name}}</p>
     <h1>{{title}}</h1>
     <p>{{sayHello()}}</p>
 
@@ -24,6 +26,7 @@
     const app = new Vue({
         el: "#app",
         data:{
+            name: '',
             title: "Hello, Vue",
             link: 'https://en.wikipedia.org/wiki/Cat',
             completeElement: `<span>i'm new element</span>`
