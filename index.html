@@ -18,14 +18,47 @@
 
     <a :href="link">Cat</a>
     <div v-html="completeElement">{{completeElement}}</div>
+    <button @click="increase">{{counter}}</button>
+    <button @click="increase2(2)">{{counter2}} step +2</button>
+    <button @click="increase3($event)">event(console)</button>
+    <p @mousemove="getCoordinates($event)">Coordinates(x: {{x}}/ y: {{y}})
+        <span @mousemove.stop>Don't catch coordinates</span>
+    </p>
+
+    <button @click="counter++">Increase</button>
+    <button @click="counter--">Decrease</button>
+    <button @click="secondCounter++">Increase second counter</button>
+    <p>Counter: {{counter}} | {{secondCounter}}</p>
+    <p>Result: {{methodResult()}} | {{computedResult}}</p>
+
+    <div
+            class="block"
+            :class="{red: isRed, pink: !isRed}"
+            @click="isRed = !isRed">
+
+    </div>
+    <input type="text" v-model="width">
+    <input type="text" v-model="color">
+     <div
+             class="box"
+             :style="myStyle"
+     ></div>
 </div>
 
-<script src="main.js"></script>
+<script src="event.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 <script>
     const app = new Vue({
         el: "#app",
         data:{
+            width: 100,
+            color: '#ccc',
+            isRed: false,
+            secondCounter: 0,
+            x: 0,
+            y: 0,
+            counter: 0,
+            counter2: 0,
             name: '',
             title: "Hello, Vue",
             link: 'https://en.wikipedia.org/wiki/Cat',
@@ -37,6 +70,36 @@
                     this.title = 'Changed'
                 }, 2000)
                 return this.title
+            },
+            increase(){
+                this.counter++
+            },
+            increase2(step){
+                this.counter2 += step
+            },
+            increase3(event){
+                console.log(event)
+            },
+            getCoordinates(event){
+                this.x = event.clientX
+                this.y = event.clientY
+            },
+            methodResult(){
+                console.log('method')
+                return this.counter > 5 ? 'Greater than 5' : 'Less than 5'
+            }
+        },
+        computed:{
+            computedResult(){
+                console.log('computed')
+                return this.counter > 5 ? 'Greater than 5' : 'Less than 5'
+            },
+            myStyle(){
+                return{
+                    backgroundColor: `${this.color}`,
+                    height: `${this.width}px`,
+                    width: `${this.width}px`,
+                }
             }
         }
     })
