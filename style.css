@@ -9,3 +9,8 @@
 .pink{
     background: palevioletred;
 }
+.box-img{
+    width: 150px;
+    height: 200px;
+    background: gray;
+}

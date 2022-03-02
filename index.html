@@ -52,6 +52,16 @@
         <h3 v-show="show">Hi</h3>
 
     </div>
+
+    <div class="products">
+        <div class="product" v-for="product of products" :key="product.id">
+            <div class="box-img"></div>
+            <div>
+                <p>{{product.title}}</p>
+                <p>{{product.price}}</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="event.js"></script>
@@ -66,6 +76,12 @@
             secondCounter: 0,
             x: 0,
             y: 0,
+            products:[
+                {id: 1, title: 'Notebook', price: 1000},
+                {id: 2, title: 'Mouse', price: 100},
+                {id: 3, title: 'Keyboard', price: 250},
+                {id: 4, title: 'Gamepad', price: 150},
+            ],
             show: true,
             counter: 0,
             counter2: 0,
