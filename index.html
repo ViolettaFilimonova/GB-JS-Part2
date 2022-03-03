@@ -28,7 +28,27 @@
 
             </div>
         </div>
+        <div id="app">
+            <p>{{width}}</p>
+        </div>
     </main>
 <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+
+    <script>
+        const app = new Vue({
+            data:{
+                width: 50,
+            },
+            methods:{
+                f(){
+                    console.log(this.width)
+                }
+            }
+        })
+
+    </script>
+
 </body>
 </html>
