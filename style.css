@@ -1,0 +1,23 @@
+
+input:last-child{
+    margin-top: 30px;
+}
+input{
+    display: block;
+    width: 400px;
+    height: 20px;
+    margin-top: 30px;
+    padding: 15px;
+}
+.wrapper{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+textarea{
+    margin-top: 30px;
+}
+.err{
+    border-color: red;
+}
