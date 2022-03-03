@@ -12,6 +12,7 @@
     <title>Интернет магазин</title>
 </head>
 <body>
+<div id="app">
     <header>
         <div class="wrapper position">
             <div class="search">
@@ -20,23 +21,23 @@
             </div>
             <div class="basket">
                 <button class="btn-cart" @click="openBasket">Корзина</button>
-                <div class="basket-block">
+                <div v-if="!basket" class="basket-block">
                     <h3>В карзине нет товаров</h3>
                 </div>
             </div>
         </div>
     </header>
-    <main>
-        <div id="app">
 
-            <div class="wrapper">
+
+    <main>
+        <div class="wrapper">
                 <div class="products">
-                    <div @click="addProduct(products)" v-for="product of products" :key="product.id" :id="product.id" class="product-item" >
+                    <div  v-for="product of products" :key="product.id" :id="product.id" class="product-item" >
                         <img v-bind:src="product.img " alt="Some img">
                         <div class="desc">
                             <h3>{{product.title}}</h3>
                             <p>{{product.price}} р</p>
-                            <button class="buy-btn" @click="addProduct">Добавить</button>
+                            <button class="buy-btn" @click='openBasket'>Добавить</button>
                         </div>
                     </div>
                 </div>
@@ -44,9 +45,10 @@
 
                 </div>
             </div>
-        </div>
 
     </main>
+
+</div>
 <script src="main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 
@@ -69,11 +71,7 @@
                 addProduct(){
                 },
                 openBasket(){
-                    if (!this.basket){
-
-                    }else {
-                        this.windowBasket.style.display = 'block'
-                    }
+                    console.log('ghjk')
                 }
             }
         })
