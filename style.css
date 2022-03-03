@@ -63,14 +63,40 @@ main{
     border-radius: 20px;
 }
 
-.basket{
-    display: flex;
-    justify-content: flex-end;
-}
 
 img{
     width: 200px;
     height: 150px;
     margin: 20px auto 0;
     display: block;
+}
+.position{
+    display: flex;
+    justify-content: space-between;
+}
+input{
+    background: transparent;
+    border: none;
+    outline:none;
+    color: #ececec;
+    font-size: 20px;
+}
+
+.search{
+    border-bottom:1px solid #ececec;
+}
+
+.display{
+    width: 300px;
+    height: 300px;
+    background: #ececec;
+    position: absolute;
+    top: 65px;
+    right: 0;
+}
+.basket-block h3{
+    font-size: 30px;
+}
+.basket{
+    position: relative;
 }
