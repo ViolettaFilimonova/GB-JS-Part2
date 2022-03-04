@@ -21,8 +21,16 @@
             </div>
             <div class="basket">
                 <button class="btn-cart" @click="openBasket">Корзина</button>
-                <div v-if="!basket" class="basket-block">
-                    <h3>В корзине нет товаров</h3>
+                <div :class="windowBasket">
+                    <h3>{{basketText}}</h3>
+                    <div  v-for="product of basketProducts" :key="product.id" :id="product.id" class="product-item" >
+                        <img v-bind:src="product.img " alt="Some img">
+                        <div class="desc">
+                            <h3>{{product.title}}</h3>
+                            <p>{{product.price}} р</p>
+                            <button class="buy-btn" @click="removeProduct">Удалить</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,7 +45,7 @@
                         <div class="desc">
                             <h3>{{product.title}}</h3>
                             <p>{{product.price}} р</p>
-                            <button class="buy-btn" @click='openBasket'>Добавить</button>
+                            <button class="buy-btn" @click="addProduct">Добавить</button>
                         </div>
                     </div>
                 </div>
@@ -50,7 +58,7 @@
 
 </div>
 <script src="main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
 
     <script>
@@ -65,13 +73,42 @@
                 ],
                 basketProducts:[],
                 basket: false,
-                windowBasket: 'basket-block'
+                windowBasket: 'basket-close',
+                basketText: 'В корзине нет товаров'
             },
             methods:{
-                addProduct(){
+                addProduct(e){
+                    this.basketProducts.push(this.products[e.path[2].id - 1])
+                    console.log(this.basketProducts , 'add')
+
+                    // if (!this.basket){
+                    //     if (this.basketProducts.length !== 0){
+                    //         this.basketText = ''
+                    //         console.log(this.basketText)
+                    //     }
+                    //
+                    // }
                 },
                 openBasket(){
-                    console.log('')
+                    if (this.basket){
+                        this.windowBasket = 'basket-close'
+                    }else if (!this.basket) {
+                        this.windowBasket = 'basket-open'
+                    }
+                    this.basket = !this.basket
+                    console.log(this.windowBasket)
+                },
+                removeProduct(e){
+                    // this.basketProducts.remove(this.products[e.path[2].id - 1])
+                    // console.log(e.path[2].id - 1)
+                    let i = e.path[2].id
+                    console.log(i)
+                    console.log(this.basketProducts[e.path[2].id])
+                    // if (i === this.basketProducts[e.path[2].id){
+                    //
+                    // }
+                    // this.basketProducts.splice(e.path[2].id, 1)
+                    // console.log(this.basketProducts , 'remove')
                 }
             }
         })
