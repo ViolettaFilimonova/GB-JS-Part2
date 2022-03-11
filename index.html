@@ -16,14 +16,16 @@
     <header>
         <div class="wrapper position">
             <div class="search">
-                <input type="text">
-                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="30px" height="30px" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48"><path fill="white" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M9.54 9.53a13.77 13.77 0 0 1 19.46 0h0a13.77 13.77 0 0 1 .74 18.67l.52.51H32l10.5 10.5l-3.28 3.29L28.72 32v-1.73l-.52-.52A13.77 13.77 0 0 1 9.53 9.54Zm3.05 3.06a9.45 9.45 0 1 0 13.37 0a9.46 9.46 0 0 0-13.37 0Zm17.16 15.62l-1.55 1.54"/></svg>
+                <input v-model="searchLine" @keyup="filterGoods" type="text">
+                <button @click="filterGoods()" class="btn-search">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="30px" height="30px" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48"><path fill="white" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M9.54 9.53a13.77 13.77 0 0 1 19.46 0h0a13.77 13.77 0 0 1 .74 18.67l.52.51H32l10.5 10.5l-3.28 3.29L28.72 32v-1.73l-.52-.52A13.77 13.77 0 0 1 9.53 9.54Zm3.05 3.06a9.45 9.45 0 1 0 13.37 0a9.46 9.46 0 0 0-13.37 0Zm17.16 15.62l-1.55 1.54"/></svg>
+                </button>
             </div>
             <div class="basket">
                 <button class="btn-cart" @click="openBasket">Корзина</button>
                 <div :class="windowBasket">
                     <h3>{{basketText}}</h3>
-                    <div  v-for="product of basketProducts" :key="product.id" :id="product.id" class="product-item" >
+                    <div   v-for="product of basketProducts" :key="product.id" :id="product.id" class="product-item" >
                         <img v-bind:src="product.img " alt="Some img">
                         <div class="desc">
                             <h3>{{product.title}}</h3>
@@ -40,7 +42,7 @@
     <main>
         <div class="wrapper">
                 <div class="products">
-                    <div  v-for="product of products" :key="product.id" :id="product.id" class="product-item" >
+                    <div  v-for="(product, index) of products" :key="index" :id="product.id" class="product-item" >
                         <img v-bind:src="product.img " alt="Some img">
                         <div class="desc">
                             <h3>{{product.title}}</h3>
@@ -74,13 +76,16 @@
                 basketProducts:[],
                 basket: false,
                 windowBasket: 'basket-close',
-                basketText: 'В корзине нет товаров'
+                basketText: 'Нет данных',
+                searchLine: '',
+                active: null,
+                list: [],
             },
             methods:{
                 addProduct(e){
                     this.basketProducts.push(this.products[e.path[2].id - 1])
                     console.log(this.basketProducts , 'add')
-
+                    // console.log(this.products[e.path[2].id]);
                     // if (!this.basket){
                     //     if (this.basketProducts.length !== 0){
                     //         this.basketText = ''
@@ -88,6 +93,40 @@
                     //     }
                     //
                     // }
+                },
+                removeProduct(){
+                    for (let i = 0; i < this.basketProducts.length - 1; i++){
+                        if (this.basketProducts[i][0] === this.products[e.path[2].id - 1]){
+                            console.log(this.basketProducts[i][0])
+                            console.log(this.products[e.path[2].id - 1])
+                        }else {
+                            console.log(this.basketProducts[i][0])
+                            console.log(this.products[e.path[2].id - 1])
+                        }
+                    }
+
+
+                    // this.basketProducts.remove(this.products[e.path[2].id - 1])
+                    // console.log(e.path[2].id - 1)
+                    // let i = e.path[2].id
+                    // console.log(i)
+                    // console.log(this.basketProducts[e.path[2].id])
+                    // console.log(e.path[2].id)
+                    // for (let product of this.basketProducts){
+                    //     // this.basketProducts.splice(e.product, 1)
+                    //     console.log(product)
+                    // }
+
+
+                    // this.basketProducts.splice(this.products[e.path[2].id - 1], 1)
+                    // console.log(this.basketProducts , 'remove')
+
+
+                    // if (i === this.basketProducts[e.path[2].id){
+                    //
+                    // }
+                    // this.basketProducts.splice(e.path[2].id, 1)
+                    // console.log(this.basketProducts , 'remove')
                 },
                 openBasket(){
                     if (this.basket){
@@ -98,19 +137,27 @@
                     this.basket = !this.basket
                     console.log(this.windowBasket)
                 },
-                removeProduct(e){
-                    // this.basketProducts.remove(this.products[e.path[2].id - 1])
-                    // console.log(e.path[2].id - 1)
-                    let i = e.path[2].id
-                    console.log(i)
-                    console.log(this.basketProducts[e.path[2].id])
-                    // if (i === this.basketProducts[e.path[2].id){
-                    //
-                    // }
-                    // this.basketProducts.splice(e.path[2].id, 1)
-                    // console.log(this.basketProducts , 'remove')
+
+                filterGoods(){
+                    if (this.searchLine) {
+                        return this.product.filter(product => {
+                            return product.title.includes(this.searchLine);
+                        });
+                    }
+                    return this.product
                 }
             }
+            // computed: {
+                // filterGoods() {
+                //     // if (this.searchLine) {
+                //     //     return this.products.filter(product => {
+                //     //         return product.title.includes(this.searchLine);
+                //     //     });
+                //     // }
+                //     // return this.products
+                //     console.log(this.searchLine)
+                // }
+            // }
         })
 
     </script>

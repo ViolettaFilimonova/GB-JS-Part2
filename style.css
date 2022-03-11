@@ -110,3 +110,7 @@ input{
 .basket{
     position: relative;
 }
+.btn-search{
+    background: transparent;
+    border: none;
+}
