@@ -24,13 +24,15 @@
             <div class="basket">
                 <button class="btn-cart" @click="openBasket">Корзина</button>
                 <div :class="windowBasket">
-                    <h3>{{basketText}}</h3>
-                    <div   v-for="product of basketProducts" :key="product.id" :id="product.id" class="product-item" >
-                        <img v-bind:src="product.img " alt="Some img">
-                        <div class="desc">
-                            <h3>{{product.title}}</h3>
-                            <p>{{product.price}} р</p>
-                            <button class="buy-btn" @click="removeProduct">Удалить</button>
+                    <h3 v-if="show">{{basketText}}</h3>
+                    <div v-else v-for="item of basketProducts" :key="item.id">
+                        <div   v-for="product of basketProducts" :key="product.id" :id="product.id" class="product-item" >
+                            <img v-bind:src="product.img " alt="Some img">
+                            <div class="desc">
+                                <h3>{{product.title}}</h3>
+                                <p>{{product.price}} р</p>
+                                <button class="buy-btn" @click="removeProduct">Удалить</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -47,7 +49,7 @@
                         <div class="desc">
                             <h3>{{product.title}}</h3>
                             <p>{{product.price}} р</p>
-                            <button class="buy-btn" @click="addProduct">Добавить</button>
+                            <button class="buy-btn" @click="addProduct($event)">Добавить</button>
                         </div>
                     </div>
                 </div>
@@ -80,30 +82,24 @@
                 searchLine: '',
                 active: null,
                 list: [],
+                show: true,
             },
             methods:{
                 addProduct(e){
                     this.basketProducts.push(this.products[e.path[2].id - 1])
                     console.log(this.basketProducts , 'add')
-                    // console.log(this.products[e.path[2].id]);
-                    // if (!this.basket){
-                    //     if (this.basketProducts.length !== 0){
-                    //         this.basketText = ''
-                    //         console.log(this.basketText)
-                    //     }
-                    //
-                    // }
+                    this.show = false
+                    console.log(this.products[e.path[2].id]);
+                    if (!this.basket){
+                        if (this.basketProducts.length !== 0){
+                            this.basketText = ''
+                            console.log(this.basketText)
+                        }
+
+                    }
                 },
                 removeProduct(){
-                    for (let i = 0; i < this.basketProducts.length - 1; i++){
-                        if (this.basketProducts[i][0] === this.products[e.path[2].id - 1]){
-                            console.log(this.basketProducts[i][0])
-                            console.log(this.products[e.path[2].id - 1])
-                        }else {
-                            console.log(this.basketProducts[i][0])
-                            console.log(this.products[e.path[2].id - 1])
-                        }
-                    }
+                    console.log(this.item)
 
 
                     // this.basketProducts.remove(this.products[e.path[2].id - 1])
