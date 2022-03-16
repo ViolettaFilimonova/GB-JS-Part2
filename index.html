@@ -16,23 +16,29 @@
     <header>
         <div class="wrapper position">
             <div class="search">
-                <input v-model="searchLine" @keyup="filterGoods" type="text">
-                <button @click="filterGoods()" class="btn-search">
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="30px" height="30px" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48"><path fill="white" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M9.54 9.53a13.77 13.77 0 0 1 19.46 0h0a13.77 13.77 0 0 1 .74 18.67l.52.51H32l10.5 10.5l-3.28 3.29L28.72 32v-1.73l-.52-.52A13.77 13.77 0 0 1 9.53 9.54Zm3.05 3.06a9.45 9.45 0 1 0 13.37 0a9.46 9.46 0 0 0-13.37 0Zm17.16 15.62l-1.55 1.54"/></svg>
-                </button>
+                <form action="#" @submit.prevent="filter">
+                    <input v-model="userSearch"  type="text">
+                    <button  class="btn-search">
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="30px" height="30px" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48"><path fill="white" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M9.54 9.53a13.77 13.77 0 0 1 19.46 0h0a13.77 13.77 0 0 1 .74 18.67l.52.51H32l10.5 10.5l-3.28 3.29L28.72 32v-1.73l-.52-.52A13.77 13.77 0 0 1 9.53 9.54Zm3.05 3.06a9.45 9.45 0 1 0 13.37 0a9.46 9.46 0 0 0-13.37 0Zm17.16 15.62l-1.55 1.54"/></svg>
+                    </button>
+                </form>
             </div>
             <div class="basket">
-                <button class="btn-cart" @click="openBasket">Корзина</button>
-                <div :class="windowBasket">
-                    <h3 v-if="show">{{basketText}}</h3>
-                    <div v-else v-for="item of basketProducts" :key="item.id">
-                        <div   v-for="product of basketProducts" :key="product.id" :id="product.id" class="product-item" >
-                            <img v-bind:src="product.img " alt="Some img">
+                <button class="btn-cart" @click="showCart = !showCart">Корзина</button>
+                <div class="cart-block" v-show="showCart">
+                    <h3 v-if="!cartItems.length">Нет данных</h3>
+                    <div  v-for="item of cartItems" :key="item.id_product">
+                        <div   class="product-item" >
+                            <img :src="imgCart" alt="Some img">
                             <div class="desc">
-                                <h3>{{product.title}}</h3>
-                                <p>{{product.price}} р</p>
-                                <button class="buy-btn" @click="removeProduct">Удалить</button>
+                                <p class="product-title">{{item.product_name}}</p>
+                                <p class="product-quantity">Количество: {{item.quantity}}</p>
+                                <p class="product-single-price">{{item.price}}₽ за единицу</p>
                             </div>
+                        </div>
+                        <div class="right-block">
+                            <p class="product-price">{{ item.quantity * item.price }}₽</p>
+                            <button class="del-btn" @click="remove(item)">&times;</button>
                         </div>
                     </div>
                 </div>
@@ -43,120 +49,29 @@
 
     <main>
         <div class="wrapper">
-                <div class="products">
-                    <div  v-for="(product, index) of products" :key="index" :id="product.id" class="product-item" >
-                        <img v-bind:src="product.img " alt="Some img">
-                        <div class="desc">
-                            <h3>{{product.title}}</h3>
-                            <p>{{product.price}} р</p>
-                            <button class="buy-btn" @click="addProduct($event)">Добавить</button>
-                        </div>
+            <div class="products">
+                <div class="product-item" v-for="product of filtered" :key="product.id_product">
+                    <img :src="imgCatalog" alt="Some img">
+                    <div class="desc">
+                        <h3>{{product.product_name}}</h3>
+                        <p>{{product.price}}₽</p>
+                        <button class="buy-btn" @click="addProduct(product)">Купить</button>
                     </div>
                 </div>
-                <div class="all-sum">
-
-                </div>
+            </div>
             </div>
 
     </main>
 
 </div>
-<script src="main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
 
-    <script>
-        const app = new Vue({
-            el: "#app",
-            data:{
-                products:[
-                    {id: 1, title: 'Notebook', price: 1000, img: 'https://via.placeholder.com/200X150'},
-                    {id: 2, title: 'Mouse', price: 100, img: 'https://via.placeholder.com/200X150'},
-                    {id: 3, title: 'Keyboard', price: 250, img: 'https://via.placeholder.com/200X150'},
-                    {id: 4, title: 'Gamepad', price: 150, img: 'https://via.placeholder.com/200X150'},
-                ],
-                basketProducts:[],
-                basket: false,
-                windowBasket: 'basket-close',
-                basketText: 'Нет данных',
-                searchLine: '',
-                active: null,
-                list: [],
-                show: true,
-            },
-            methods:{
-                addProduct(e){
-                    this.basketProducts.push(this.products[e.path[2].id - 1])
-                    console.log(this.basketProducts , 'add')
-                    this.show = false
-                    console.log(this.products[e.path[2].id]);
-                    if (!this.basket){
-                        if (this.basketProducts.length !== 0){
-                            this.basketText = ''
-                            console.log(this.basketText)
-                        }
-
-                    }
-                },
-                removeProduct(){
-                    console.log(this.item)
 
 
-                    // this.basketProducts.remove(this.products[e.path[2].id - 1])
-                    // console.log(e.path[2].id - 1)
-                    // let i = e.path[2].id
-                    // console.log(i)
-                    // console.log(this.basketProducts[e.path[2].id])
-                    // console.log(e.path[2].id)
-                    // for (let product of this.basketProducts){
-                    //     // this.basketProducts.splice(e.product, 1)
-                    //     console.log(product)
-                    // }
 
-
-                    // this.basketProducts.splice(this.products[e.path[2].id - 1], 1)
-                    // console.log(this.basketProducts , 'remove')
-
-
-                    // if (i === this.basketProducts[e.path[2].id){
-                    //
-                    // }
-                    // this.basketProducts.splice(e.path[2].id, 1)
-                    // console.log(this.basketProducts , 'remove')
-                },
-                openBasket(){
-                    if (this.basket){
-                        this.windowBasket = 'basket-close'
-                    }else if (!this.basket) {
-                        this.windowBasket = 'basket-open'
-                    }
-                    this.basket = !this.basket
-                    console.log(this.windowBasket)
-                },
-
-                filterGoods(){
-                    if (this.searchLine) {
-                        return this.product.filter(product => {
-                            return product.title.includes(this.searchLine);
-                        });
-                    }
-                    return this.product
-                }
-            }
-            // computed: {
-                // filterGoods() {
-                //     // if (this.searchLine) {
-                //     //     return this.products.filter(product => {
-                //     //         return product.title.includes(this.searchLine);
-                //     //     });
-                //     // }
-                //     // return this.products
-                //     console.log(this.searchLine)
-                // }
-            // }
-        })
-
-    </script>
+<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
